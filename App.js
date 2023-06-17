@@ -2,6 +2,7 @@ import { StyleSheet, Text, View,FlatList,Button } from 'react-native';
 import {useState} from 'react';
 import GoalItem from './components/GoalItem';
 import GoalInput from './components/GoalInput';
+import {StatusBar} from 'expo-status-bar'
 export default function App() {
   
   const [courseGoals,setCourseGoals]=useState([]); 
@@ -10,24 +11,30 @@ export default function App() {
  function startAddGoalHandler(){
   setModalIsVisible(true)
  }
+ function endAddGoalHandler(){
+  setModalIsVisible(false)
+ }
  function addGoalHandler(enteredGoalText){
   // console.log(enteredGoalText);
   // Two way to add existing state recommanded way is 2nd
   // setCourseGoals([...courseGoals,enteredGoalText]);
   setCourseGoals((currentCourseGoals)=>[...currentCourseGoals,{text:enteredGoalText,id:Math.random().toString()}]);
+  endAddGoalHandler();
  }
 
  function deleteGoalhandler(id){
-  console.log("Delete");
+  // console.log("Delete");
   setCourseGoals((currentCourseGoals)=>{
     return currentCourseGoals.filter((goal)=> goal.id !==id)
   });
  }
 
   return (
+    <>
+    <StatusBar style='dark'/>
     <View  style={styles.appContainer}>
       <Button title='Add New Goal' color="#841584" onPress={startAddGoalHandler}/>
-      <GoalInput visible={modalIsVisible} onAddGoal={addGoalHandler}/>
+      <GoalInput visible={modalIsVisible} onAddGoal={addGoalHandler} onCancel={endAddGoalHandler}/>
       <View style={styles.goalsContainer}>
         <Text style={styles.goalText}>List of goals...</Text>
         <FlatList data={courseGoals} renderItem={(itemData)=>{
@@ -40,6 +47,7 @@ export default function App() {
         
       </View> 
     </View>
+    </>
   );
 }
 
@@ -47,7 +55,8 @@ const styles = StyleSheet.create({
   appContainer:{
     paddingTop:50,
     paddingHorizontal:16,
-    flex:1
+    flex:1,
+    
   },
   goalsContainer:{
     flex:5
@@ -55,8 +64,10 @@ const styles = StyleSheet.create({
   goalText:{
     textAlign:'center',
     borderRadius:6,
-    borderColor:'red',
+    borderColor:'#3245as',
     borderWidth:1,
     padding:8,
+    marginTop:8,
+    color:'#ffffff'
   },
 });
