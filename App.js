@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   goalText:{
     textAlign:'center',
     borderRadius:6,
-    borderColor:'#3245as',
+    borderColor:'red',
     borderWidth:1,
     padding:8,
     marginTop:8,
